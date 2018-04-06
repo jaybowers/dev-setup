@@ -1,0 +1,13 @@
+#!/bin/bash
+
+script_path=$(dirname $0)
+
+abs_script_path=`cd "$script_path"; pwd` # double quotes for paths that contain spaces etc...
+
+if [ ! -e ~/.vimrc ]; then
+	ln -s "$abs_script_path"/vimrc ~/.vimrc
+	echo "linked \"$abs_script_path/vimrc\" to ~/.vimrc"
+	echo "Done"
+else 
+	echo "file already exists ~/.vimrc"
+fi

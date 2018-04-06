@@ -1,0 +1,5 @@
+/requests
+.*.swp
+.*.kate-swp
+*.pyc
+

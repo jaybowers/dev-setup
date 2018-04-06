@@ -1,0 +1,1 @@
+Simple tmux configraion

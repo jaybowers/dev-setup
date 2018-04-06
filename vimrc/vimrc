@@ -1,0 +1,101 @@
+execute pathogen#infect()
+
+" Vimscript file settings ---------------------- {{{
+    " Auto fold vim scrip files
+    augroup filetype_vim
+        autocmd!
+        autocmd FileType vim setlocal foldmethod=marker
+    augroup END
+" }}}
+
+let mapleader = ","
+let maplocalleader = "\\"
+
+set ts=4
+set expandtab
+set autoindent
+set incsearch
+set hlsearch
+nnoremap <leader>/ :nohlsearch<CR>
+set ignorecase
+set smartcase
+
+"let g:xml_syntax_folding=1
+au FileType xml setlocal foldmethod=syntax
+
+" Editing mappings
+nnoremap <space> za
+inoremap <c-d> <esc>viwUi
+
+" Abbrivations
+iabbrev tehn then
+iabbrev @@ jay.bowers@multicom.co.uk
+
+" Normal mode home and last mappings
+nnoremap H ^
+nnoremap L $
+
+" Leader Mappings ---------------------- {{{
+    " Quick editing of the vimrc file
+    nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+    nnoremap <leader>sv :source $MYVIMRC<cr>
+    
+    " surround a word with '
+    nnoremap <leader>' viw<Esc>a'<Esc>hbi'<Esc>lel
+    " surround a word with '
+    nnoremap <leader>" viw<Esc>a"<Esc>hbi"<Esc>lel
+    " surround a visually selected text with "
+    vnoremap <leader>" <esc>`<i"<esc>`>a"<esc>
+    " surround a visually selected text with '
+    vnoremap <leader>' <esc>`<i"<esc>`>a"<esc>
+    
+    " highlight space at the end of a line
+    nnoremap <leader>w :match Error /\v\s+$/<CR>
+    nnoremap <leader>W :match Error //<CR>
+
+    function! FoldXmlAuditFile()
+        " set manual fold method so that the script can set the folds
+        set foldmethod=manual
+        
+        " capture all the start line numbers for entries
+        redir => starts
+        silent! exe ':g/^RR/echo line(".")'
+        redir END
+        let l:starts_list = split(starts)
+
+        let l:starts_list_length = len(l:starts_list)
+        for l:index in range(l:starts_list_length)
+            " start the fold from the next line so that we see the headers
+            let l:start = l:starts_list[l:index]
+            " End on either the start of the next entry or the end of the file
+            let l:end = 
+\                l:index + 1 < l:starts_list_length ?
+\                l:starts_list[l:index + 1] - 2 :
+\                line('$')
+            " make the fold
+            exe l:start . ',' . l:end . 'fo'
+        endfor
+        
+    endfunction
+
+    " fold fab-audit RR
+    nnoremap <leader>f :call FoldXmlAuditFile()<CR>
+" }}}
+
+" Re-map <esc> to jk and add nop to aid muscle memory
+inoremap jk <esc>
+inoremap <esc> <nop>
+
+" All searches should be 'magic'
+nnoremap / /\v
+nnoremap ? ?\v
+
+" Current scheme
+colorscheme onedark
+runtime! ftplugin/man.vim
+
+if has("autocmd")
+  augroup templates
+    autocmd BufNewFile *.sh 0r ~/.vim/templates/skeleton.sh
+  augroup END
+endif

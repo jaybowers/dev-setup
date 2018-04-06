@@ -1,0 +1,30 @@
+[user]
+    name = Jay Bowers
+#    email = 
+[alias]
+    st = status
+    co = checkout
+    br = branch
+    rs = reset
+    rv = checkout HEAD --
+    ca = commit -a
+    
+    # status - but color and through less
+    stl = ! git -c color.status=always status | less -R
+    
+    show-current-branch = ! git rev-parse --abbrev-ref HEAD
+    
+    # log commits
+    lc = log ORIG_HEAD.. --stat --no-merges
+
+    # log graph
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+[color]
+    ui = true
+[core]
+    excludesfile = /home/jayb/.gitignore_global
+	editor = vi
+[credential]
+	helper = cache
+[push]
+	default = simple
