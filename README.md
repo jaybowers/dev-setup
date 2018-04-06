@@ -11,7 +11,7 @@ A simple bash script to set up a new workstation.
 
 ```
     apt-get install git \
-        && git clone git@git.office.mcom:jayb/desktop-setup.git \
+        && git clone git@github.com:jaybowers/dev-setup.git \
         && cd desktop-setup \
         && ./setup.sh <other desktop>
 ```
